@@ -31,6 +31,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+                    SplashScreen(painterResource(id = R.drawable.ic_task_completed), taskStatus = stringResource(
+                        id = R.string.task_status_text
+                    ), subTitle = stringResource(id = R.string.nice_work_text))
                 }
             }
         }
