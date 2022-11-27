@@ -39,11 +39,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SplashScreen(imageResource: Painter, taskStatus: String, subTitle: String) {
-    Column(
-        modifier = Modifier
-            .fillMaxHeight()
-            .wrapContentHeight(Alignment.CenterVertically)
-    ) {
+    Column(modifier = Modifier
+        .fillMaxHeight()
+        .wrapContentHeight(Alignment.CenterVertically)) {
         Image(
             painter = imageResource,
             contentDescription = null,
@@ -65,4 +63,14 @@ fun SplashScreen(imageResource: Painter, taskStatus: String, subTitle: String) {
             textAlign = TextAlign.Center
         )
     }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun SplashScreenPreview() {
+    SplashScreen(
+        imageResource = painterResource(id = R.drawable.ic_task_completed),
+        taskStatus = stringResource(R.string.task_status_text),
+        subTitle = stringResource(R.string.nice_work_text)
+    )
 }
