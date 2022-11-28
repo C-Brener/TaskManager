@@ -1,6 +1,5 @@
 package com.example.taskmanager
 
-import android.graphics.Paint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,8 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.SemanticsPropertyKey
+import androidx.compose.ui.semantics.SemanticsPropertyReceiver
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,9 +34,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    SplashScreen(painterResource(id = R.drawable.ic_task_completed), taskStatus = stringResource(
-                        id = R.string.task_status_text
-                    ), subTitle = stringResource(id = R.string.nice_work_text))
+                    SplashScreen(
+                        painterResource(id = R.drawable.ic_task_completed),
+                        taskStatus = stringResource(
+                            id = R.string.task_status_text
+                        ),
+                        subTitle = stringResource(id = R.string.nice_work_text)
+                    )
                 }
             }
         }
@@ -41,20 +48,25 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SplashScreen(imageResource: Painter, taskStatus: String, subTitle: String) {
-    Column(modifier = Modifier
-        .fillMaxHeight()
-        .wrapContentHeight(Alignment.CenterVertically)) {
+fun SplashScreen(imageResource: Painter?, taskStatus: String?, subTitle: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .wrapContentHeight(Alignment.CenterVertically)
+    ) {
         Image(
-            painter = imageResource,
+            painter = imageResource ?: painterResource(id = R.drawable.ic_launcher_background),
             contentDescription = null,
             alignment = Alignment.Center,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("${imageResource ?: R.drawable.ic_launcher_background.toString()}")
         )
         Text(
-            text = taskStatus,
+            text = taskStatus ?: stringResource(id = R.string.app_name),
             fontSize = 24.sp,
             modifier = Modifier
+                .testTag("Title")
                 .padding(top = 24.dp, bottom = 8.dp)
                 .fillMaxWidth(),
             textAlign = TextAlign.Center
@@ -62,7 +74,9 @@ fun SplashScreen(imageResource: Painter, taskStatus: String, subTitle: String) {
         Text(
             text = subTitle,
             fontSize = 16.sp,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("Sub Title"),
             textAlign = TextAlign.Center
         )
     }
